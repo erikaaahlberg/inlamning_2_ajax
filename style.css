@@ -1,10 +1,16 @@
 body {
     font-family: 'Inconsolata', monospace;
 }
+.hidden {
+    display: none;
+}
+
+/*---Box select country attributes---*/
 .box_select_country {
-    width: 30%;
+    width: 70%;
     margin: auto;
     padding: 20px;
+    text-align: center;
 }
 h1, 
 label,
@@ -38,11 +44,16 @@ input[type=submit]:focus {
     outline: none;
     background: orangered;
 }
-.hidden {
-    display: none;
+
+/*---Box display news attributes---*/
+.wrapper_news {
+    margin-bottom: 50px;
 }
 .box_display_news {
     width: 80%;
-    margin: auto;
+    margin: 50px auto;
     padding: 20px;
+}
+.title_news {
+    font-family: 'Oswald', sans-serif;
 }

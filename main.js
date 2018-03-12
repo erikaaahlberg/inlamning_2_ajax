@@ -1,45 +1,90 @@
 function fetchNews(countryCode) {
-    fetch(`https://newsapi.org/v2/top-headlines?country=${countryCode}&category=business&apiKey=e0a54875bf4f4b4f803131a0b91fc182`)
+    fetch(`https://newsapi.org/v2/top-headlines?country=${countryCode}&apiKey=e0a54875bf4f4b4f803131a0b91fc182`)
     .then(function(response) {
         return response.json();
     })
     .then(function(fetchedNews) {
         console.log(fetchedNews);
         printNews(fetchedNews);
-        //sortSource(newsJsonData);
-    });
+    })
+    .catch(function(errorMessage) {
+        console.log(errorMessage);
+        errorMessage = "Something went wrong, please try again!";
+        printErrorMessage(errorMessage);
+    }) 
 }
+function printErrorMessage(errorMessage) {
+    const container = document.getElementById("box_select_country");
+    const boxErrorMessage = document.createElement("div");
+    const errorMessageParagraph = document.createElement("p");
+    const errorMessageNode = document.createTextNode(errorMessage);
 
-function printNews() {
+    errorMessageParagraph.appendChild(errorMessageNode);
+    boxErrorMessage.appendChild(errorMessageParagraph);
+    container.appendChild(boxErrorMessage);
+    setTimeout(function() {
+        boxErrorMessage.className = "hidden";
+    }, 3000);
+}
+function printNews(news){
     const container = document.getElementById("box_display_news");
     container.className = "box_display_news";
-}
-function sortSource(articles){
-    for (let article of articles) {
-        //console.log(article.articles);
-        for (let source of article.articles){
-            console.log(source.title);
-        }
-    }
-}
-function createNewsParagraph(news){
     for (let article of news.articles) {
-        const newsParagraph = document.createElement("div");
-        const newsArticle = document.createElement("article");
-        console.log(article.title);
+        const newsWrapper = document.createElement("div");
+        const publishedAt = document.createElement("h3");
+        const newsTitle = document.createElement("h2");
+        const linkReadMore = document.createElement("a");
+
+        newsWrapper.className = "wrapper_news";
+        publishedAt.className = "published_at";
+        newsTitle.className = "title_news";
+        linkReadMore.className = "link_read_more";
+        linkReadMore.href = article.url;
+
+        const titleNode = document.createTextNode(article.title);
+        const timeNode = document.createTextNode(`Published at: ${article.publishedAt}`);
+        const linkNode = document.createTextNode("Read More");
+        publishedAt.appendChild(timeNode);
+        newsTitle.appendChild(titleNode);
+        newsWrapper.appendChild(publishedAt);
+        newsWrapper.appendChild(newsTitle);
+        container.appendChild(newsWrapper);
     }
 }
 const button = document.getElementById("select_country_submit");
 button.addEventListener("click", function(){
     const selectedCountry = document.getElementById("select_country").value;
+    const selectedCategory = document.getElementById("select_category").value;
+    checkSelectedValues(selectedCountry, selectedCategory);
     console.log(selectedCountry);
     const countryCode = countryToFetch(selectedCountry);
     console.log(countryCode);
     fetchNews(countryCode);
-    
-})
-
-function countryToFetch(selectedValue){
+});
+function checkSelectedValues(selectedCountry,selectedCategory) {
+    var searchParameter = "";
+    if (selectedCountry != "all") {
+        const countryCode = countryToFetch(selectedCountry);
+        const countryParameter = `country=${countryCode}`;
+    }
+    if (selectedCategory != "all") {
+        const categoryParameter = `category=${selectedCategory}`;
+    }
+    if (countryParameter && categoryParameter) {
+        searchParameter = `${countryParameter}&$categoryParameter`;
+        return searchParameter;
+    }
+    else if (countryParameter) {
+        return countryParameter;
+    }
+    else if (categoryParameter) {
+        return categoryParameter;
+    }
+    else {
+        return false;
+    }
+}
+function countryToFetch(selectedValue) {
     switch (selectedValue) {
         case "australia":
             return "au";
