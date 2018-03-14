@@ -1,15 +1,21 @@
-body {
+body{
+    padding: 0px;
     font-family: 'Inconsolata', monospace;
+    color: rgb(71, 71, 71);
+    background: url("images/background.jpg");
+    background-size: cover;
+    background-position: center;
 }
 .hidden {
     display: none;
 }
 
 /*---Box select country attributes---*/
-.box_select_country {
-    width: 70%;
-    margin: auto;
-    padding: 20px;
+#boxSelectCountry {
+    width: 80%;
+    margin: 0px auto;
+    padding-bottom: 20px;
+    padding-top: 20px;
     text-align: center;
 }
 h1, 
@@ -19,18 +25,35 @@ select {
     font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
     letter-spacing: 2px;
+    color: black;
 }
 h1 {
     font-size: 3em;
+    margin-top: 100px;
+    margin-bottom: 25px;
+}
+.formSubHeader {
+    font-size: 1.1em;
+    text-align: left;
+    margin-left: 80px;
 }
 select,
+input[type=text],
 input[type=submit] {
+    background: rgb(199, 229, 253);
     border: none;
     padding: 5px 10px 5px 10px;
     border-radius: 3px;
 }
+input[type=text]{
+    font-family: 'Inconsolata', monospace;
+    font-size: 1.1em;
+    font-weight: 700;
+}
 select:hover,
-select:focus {
+select:focus,
+input[type=text]:hover,
+input[type=text]:focus {
     outline: none;
     border: 2px solid orangered;
 }
@@ -44,16 +67,48 @@ input[type=submit]:focus {
     outline: none;
     background: orangered;
 }
+#advancedSearchForm,
+#topHeadlineForm {
+    text-align: left;
+    margin-left: 80px;
+    margin-top: -3px;
+}
+#topHeadlineForm {
+    margin-bottom: 30px;
+}
 
 /*---Box display news attributes---*/
-.wrapper_news {
-    margin-bottom: 50px;
+.newsWrapper {
+    padding: 30px;
+    background: white;
 }
-.box_display_news {
+.newsWrapperGrey {
+    padding: 30px;
+    background: rgb(199, 229, 253);
+}
+.boxDisplayNews {
     width: 80%;
-    margin: 50px auto;
-    padding: 20px;
+    padding: 0px;
+    margin: auto;
+    margin-top: 40px;
 }
-.title_news {
+h4 {
+    color: black;
+    font-size: 1.2em;
+}
+h5, h6 {
+    margin-bottom: 0px;
+}
+.newsTitle {
     font-family: 'Oswald', sans-serif;
+    margin-top: 0px;
+}
+a {
+    color: orangered;
+    font-weight: 700;
+    text-decoration: none;
+    font-family: 'Inconsolata', monospace;
+}
+a:hover {
+    color: black;
 }

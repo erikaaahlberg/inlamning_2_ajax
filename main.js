@@ -1,20 +1,26 @@
-function fetchNews(countryCode) {
-    fetch(`https://newsapi.org/v2/top-headlines?country=${countryCode}&apiKey=e0a54875bf4f4b4f803131a0b91fc182`)
+function fetchNews(searchParameter) {
+    fetch(`https://newsapi.org/v2/${searchParameter}&apiKey=e0a54875bf4f4b4f803131a0b91fc182`)
     .then(function(response) {
         return response.json();
     })
     .then(function(fetchedNews) {
         console.log(fetchedNews);
-        printNews(fetchedNews);
+        if(fetchedNews){
+            printNews(fetchedNews);
+        }
+        else if(!fetchedNews || fetchedNews.articles.length === 0){
+            printErrorMessage("No articles matched your search, please try again!")
+        }
     })
     .catch(function(errorMessage) {
-        console.log(errorMessage);
-        errorMessage = "Something went wrong, please try again!";
-        printErrorMessage(errorMessage);
+        printErrorMessage("Something went wrong, please try again!");
     }) 
 }
+function fetchNewsAdvancedSearch () {
+
+}
 function printErrorMessage(errorMessage) {
-    const container = document.getElementById("box_select_country");
+    const container = document.getElementById("boxSelectCountry");
     const boxErrorMessage = document.createElement("div");
     const errorMessageParagraph = document.createElement("p");
     const errorMessageNode = document.createTextNode(errorMessage);
@@ -22,70 +28,86 @@ function printErrorMessage(errorMessage) {
     errorMessageParagraph.appendChild(errorMessageNode);
     boxErrorMessage.appendChild(errorMessageParagraph);
     container.appendChild(boxErrorMessage);
+    
     setTimeout(function() {
         boxErrorMessage.className = "hidden";
     }, 3000);
 }
 function printNews(news){
-    const container = document.getElementById("box_display_news");
-    container.className = "box_display_news";
+    const container = document.getElementById("boxDisplayNews");
+    container.className = "boxDisplayNews";
+    var i = 0;
     for (let article of news.articles) {
         const newsWrapper = document.createElement("div");
-        const publishedAt = document.createElement("h3");
-        const newsTitle = document.createElement("h2");
+        const publishedAt = document.createElement("h5");
+        const newsSource = document.createElement("h6");
+        const newsTitle = document.createElement("h4");
         const linkReadMore = document.createElement("a");
 
-        newsWrapper.className = "wrapper_news";
-        publishedAt.className = "published_at";
-        newsTitle.className = "title_news";
-        linkReadMore.className = "link_read_more";
-        linkReadMore.href = article.url;
+        if (i % 2 === 0) {
+            newsWrapper.className = "newsWrapperGrey";
+        }
+        else {
+            newsWrapper.className = "newsWrapper";
+        }
+        
+        publishedAt.className = "newsSubTitle";
+        newsTitle.className = "newsTitle";
+        linkReadMore.className = "linkReadMore";
 
-        const titleNode = document.createTextNode(article.title);
+        linkReadMore.href = article.url;
+        
         const timeNode = document.createTextNode(`Published at: ${article.publishedAt}`);
-        const linkNode = document.createTextNode("Read More");
+        const titleNode = document.createTextNode(article.title);
+        const linkNode = document.createTextNode("Read More...");
+
+        linkReadMore.appendChild(linkNode);
         publishedAt.appendChild(timeNode);
         newsTitle.appendChild(titleNode);
         newsWrapper.appendChild(publishedAt);
         newsWrapper.appendChild(newsTitle);
+        newsWrapper.appendChild(linkReadMore);
         container.appendChild(newsWrapper);
+
+        i++;
     }
 }
-const button = document.getElementById("select_country_submit");
-button.addEventListener("click", function(){
-    const selectedCountry = document.getElementById("select_country").value;
-    const selectedCategory = document.getElementById("select_category").value;
-    checkSelectedValues(selectedCountry, selectedCategory);
-    console.log(selectedCountry);
-    const countryCode = countryToFetch(selectedCountry);
-    console.log(countryCode);
-    fetchNews(countryCode);
+function printSelectedParameters (){
+
+}
+const submitButton = document.getElementById("selectCountrySubmit");
+submitButton.addEventListener("click", function(){
+    event.preventDefault();
+    const selectedCountry = document.getElementById("selectCountry").value;
+    const selectedCategory = document.getElementById("selectCategory").value;
+    const searchParameter = createParameterFromSelections(selectedCountry, selectedCategory);
+    fetchNews(searchParameter);
 });
-function checkSelectedValues(selectedCountry,selectedCategory) {
-    var searchParameter = "";
-    if (selectedCountry != "all") {
-        const countryCode = countryToFetch(selectedCountry);
-        const countryParameter = `country=${countryCode}`;
-    }
-    if (selectedCategory != "all") {
-        const categoryParameter = `category=${selectedCategory}`;
-    }
-    if (countryParameter && categoryParameter) {
-        searchParameter = `${countryParameter}&$categoryParameter`;
+const searchButton = document.getElementById("anvancedSearchSubmit");
+searchButton.addEventListener("click", function(){
+    event.preventDefault();
+    const keyword = document.getElementById("advancedSearchInput").value;
+    const searchParameter = createParameterFromInput(keyword);
+    fetchNews(searchParameter);
+})
+function createParameterFromSelections(selectedCountry,selectedCategory) {
+    const countryCode = countryToFetch(selectedCountry); 
+    const countryParameter = `top-headlines?country=${countryCode}`;
+
+    if (selectedCategory != "all"){
+        const searchParameter = `${countryParameter}&category=${selectedCategory}`;
         return searchParameter;
     }
-    else if (countryParameter) {
+    else{
         return countryParameter;
     }
-    else if (categoryParameter) {
-        return categoryParameter;
-    }
-    else {
-        return false;
-    }
 }
-function countryToFetch(selectedValue) {
-    switch (selectedValue) {
+function createParameterFromInput(keyword){
+    const searchParameter = `everything?q=${keyword}`;
+    return searchParameter;
+}
+function countryToFetch(selectedCountry){
+    switch (selectedCountry){
         case "australia":
             return "au";
             break;

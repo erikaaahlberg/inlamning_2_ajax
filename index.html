@@ -10,18 +10,18 @@
 </head>
 <body>
     <main>
-        <div class = "box_select_country" id = "box_select_country">
+        <div id = "boxSelectCountry">
             <header>
                 <h1>World Wide News</h1>
             </header>
-            <form action ="#" method = "get">
-                <label for = "select_country">
+            <h2 class = "formSubHeader">
+                Browse among the top headlines from the country of your choice!
+            </h2>
+            <form action ="#" id = "topHeadlineForm">
+                <label for = "selectCountry">
                     Select country:
                 </label>
-                <select id = "select_country">
-                    <option value = "all">
-                        All
-                    </option>
+                <select id = "selectCountry">
                     <option value = "australia">
                         Australia
                     </option>
@@ -70,7 +70,7 @@
                     <option value = "netherlands">
                         Netherlands
                     </option>
-                    <option value = "new_zealand">
+                    <option value = "newZealand">
                         New Zealand
                     </option>
                     <option value = "norway">
@@ -82,20 +82,23 @@
                     <option value = "portugal">
                         Portugal
                     </option>
-                    <option value = "south_africa">
+                    <option value = "southAfrica">
                         South Africa
                     </option>
                     <option value = "sweden">
                         Sweden
                     </option>
-                    <option value = "united_states">
+                    <option value = "unitedStates">
                         United States
                     </option>
                     <option value = "venezuela">
                         Venezuela
                     </option>
                 </select>
-                <select id = "select_category">
+                <label for = "selectCategory">
+                    Select category:
+                </label>
+                <select id = "selectCategory">
                     <option value = "all">
                         All
                     </option>
@@ -121,10 +124,17 @@
                         Technology
                     </option>
                 </select>
-                <input type = "submit" id = "select_country_submit" value = "Search">
+                <input type = "submit" id = "selectCountrySubmit" value = "Submit">
+            </form>
+            <h3 class = "formSubHeader">
+                Want to get more specific? Enter a keyword below
+            </h3>
+            <form action ="#" id = "advancedSearchForm">
+                <input type = "text" id = "advancedSearchInput">
+                <input type = "submit" id = "anvancedSearchSubmit" value = "Search">
             </form>
         </div>
-        <div class = "hidden" id = "box_display_news">
+        <div class = "hidden" id = "boxDisplayNews">
         </div>
     </main>
     <script src = "main.js"></script>
