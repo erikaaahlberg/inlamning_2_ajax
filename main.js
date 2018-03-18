@@ -30,7 +30,6 @@ function landingOnPage(){
             printNews(news);
             //printSearchedParameters(searchParameters);
         }
-        
     }
 }
 function removeFromLocalStorage(key){
@@ -71,30 +70,34 @@ function removeAfter2minutes(key) {
       setTimeout(() => {
         removeFromLocalStorage(key);
         location.reload();
-      }, 5000);
+      }, 7000);
     });
   }
+function hideItem(item){
+    item.className = "hidden";
+} // hideItem collapse
 async function saveInLocalStorage(key, value){
     localStorage.setItem(key, JSON.stringify(value));
-    const timer = await removeAfter2minutes(key);
+    await removeAfter2minutes(key);
 } // saveInLocalStorage collapse
 
 function getFromLocalStorage(key){
     const fetchedList = JSON.parse(localStorage.getItem(key));
     return fetchedList;
 } // getFromLocalStorageCollaps
+
 function printErrorMessage(errorMessage) {
-    const container = document.getElementById("boxSelectCountry");
+    const container = document.getElementById("boxSearchNews");
     const boxErrorMessage = document.createElement("div");
     const errorMessageParagraph = document.createElement("p");
     const errorMessageNode = document.createTextNode(errorMessage);
-
+    errorMessageParagraph.className = "errorMessage";
     errorMessageParagraph.appendChild(errorMessageNode);
     boxErrorMessage.appendChild(errorMessageParagraph);
     container.appendChild(boxErrorMessage);
     
     setTimeout(function() {
-        boxErrorMessage.className = "hidden";
+        hideItem(boxErrorMessage);
     }, 3000);
 }
 function printSearchMessage(searchMessage){
@@ -158,6 +161,8 @@ function printNews(news){
 
         i++;
     }
+    const boxSearchNews = document.getElementById("boxSearchNews");
+    hideItem(boxSearchNews);
 }
 function createParameterFromSelections(selectedCountry,selectedCategory) {
     const countryCode = countryToFetch(selectedCountry); 
