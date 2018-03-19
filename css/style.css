@@ -2,7 +2,7 @@ body{
     padding: 0px;
     font-family: 'Inconsolata', monospace;
     color: rgb(71, 71, 71);
-    background: url("images/background.jpg");
+    background: url("../images/background.jpg");
     background-size: cover;
     background-position: center;
 }
